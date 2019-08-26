@@ -1,17 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "simple teleop",group="Linear OpMode")
 public class JeffArcadeDrive extends LinearOpMode {
     private DcMotor rightMotor;
     private DcMotor leftMotor;
+    private Servo claw;
     @Override
     public void runOpMode(){
         rightMotor = hardwareMap.get(DcMotor.class,"right");
         leftMotor = hardwareMap.get(DcMotor.class,"left");
+        claw = hardwareMap.get(Servo.class,"arm");
+
+
         boolean tank = true;
         boolean prevmode = true;
         telemetry.addData("Status","Running");
@@ -34,6 +40,14 @@ public class JeffArcadeDrive extends LinearOpMode {
                 rightMotor.setPower(right);
                 leftMotor.setPower(left);
             }
+            if(this.gamepad1.left_trigger>0.4){
+                claw.setPosition(0);
+            }
+            if(this.gamepad1.left_bumper){
+                claw.setPosition(1);
+            }
+
+
 
             telemetry.addData("Status","Running");
             telemetry.update();
